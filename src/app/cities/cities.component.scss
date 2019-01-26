@@ -1,0 +1,14 @@
+:host{
+  height: 100%;
+  display: block;
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+    mat-card {
+      display: inline-block;
+      margin: 20px;
+      width: 260px;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+.app-container {
+  height: 100%;
+  display: block;
+  mat-toolbar {
+    mat-toolbar-row {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

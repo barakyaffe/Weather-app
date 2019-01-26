@@ -1,0 +1,10 @@
+<div *ngIf="cities" class="grid-container">
+  <mat-card *ngFor="let city of cities; let i = index">
+    <mat-card-title>City #{{i+1}}: {{city.name}}</mat-card-title>
+    <mat-card-subtitle>Country code: {{city.country}}</mat-card-subtitle>
+    <mat-card-content>
+      <p>Temperature: {{city.temp}}</p>
+      <p>Humidity: {{city.humidity}}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
