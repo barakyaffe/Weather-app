@@ -12,7 +12,7 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  public getJSON(): Observable<any> {
+  public getAllCitiesFromJSON(): Observable<any> {
     return this.http.get('./assets/city.list.json');
   }
 

@@ -12,15 +12,15 @@ import {Subscription} from 'rxjs/index';
 })
 export class CitiesComponent implements OnInit, OnDestroy {
   public cities: Cities;
+  public isLoaded: boolean;
   private ids: string;
-
   private subs: Subscription;
 
   constructor(private apiService: ApiService) {
   }
 
   ngOnInit() {
-    this.subs = this.apiService.getJSON()
+    this.subs = this.apiService.getAllCitiesFromJSON()
       .pipe(
         filter(data => data),
         tap(data => this.getFirstTwentyCities(data)),
@@ -37,21 +37,17 @@ export class CitiesComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  // Todo: convert forloop to arrow fn
   public getFirstTwentyCities(data): string {
-    for (let i = 0; i < 20; i++) {
-      if (this.ids) {
-        this.ids = this.ids.concat(',' + data[i].id);
-      } else {
-        this.ids = '';
-        this.ids = this.ids.concat(data[i].id);
+    data.forEach((el, index) => {
+      if (index < 20) {
+        this.ids = this.ids ? this.ids.concat(',' + data[index].id) : '' + data[index].id;
       }
-    }
+    });
+    console.log('this.ids =>' , this.ids);
     return this.ids;
   }
 
   public sort(arr): void {
-    console.log('arr =>' , arr);
     this.cities =
       arr.map(city => {
         return {

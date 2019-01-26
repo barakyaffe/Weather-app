@@ -6,7 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {ApiService} from './shared/services/api.service';
 import { CitiesComponent } from './cities/cities.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatCardModule, MatGridListModule, MatToolbarModule} from '@angular/material';
+import {MatCardModule, MatGridListModule, MatProgressSpinnerModule, MatToolbarModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -18,6 +18,7 @@ import {MatCardModule, MatGridListModule, MatToolbarModule} from '@angular/mater
     HttpClientModule,
     BrowserAnimationsModule,
     MatToolbarModule,
+    MatProgressSpinnerModule,
     MatGridListModule,
     MatCardModule
   ],
