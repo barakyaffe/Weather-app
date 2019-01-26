@@ -1,6 +1,20 @@
 :host{
   height: 100%;
   display: block;
+  mat-toolbar {
+    .radio-btns-container {
+      mat-radio-group {
+        width: 100%;
+        display: flex;
+        mat-radio-button {
+          margin: 0 30px;
+        }
+      }
+      .fill-remaining-space {
+        flex: 1 1 auto;
+      }
+    }
+  }
   .grid-container {
     display: grid;
     grid-template-columns: auto auto auto;
@@ -8,7 +22,7 @@
     mat-card {
       display: inline-block;
       margin: 20px;
-      width: 260px;
+      width: 300px;
     }
   }
   .spinner-wrapper {

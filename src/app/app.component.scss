@@ -2,7 +2,7 @@
   height: 100%;
   display: block;
   mat-toolbar {
-    mat-toolbar-row {
+    .app-title {
       display: flex;
       justify-content: center;
     }

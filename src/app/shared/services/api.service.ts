@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {USER_TOKEN} from '../../app.consts';
 import {Observable} from 'rxjs/index';
-import {Cities} from '../interfaces/city';
 
 @Injectable({
   providedIn: 'root'

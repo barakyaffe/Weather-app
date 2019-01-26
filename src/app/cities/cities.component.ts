@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ApiService} from '../shared/services/api.service';
 import {filter, map, switchMap, tap} from 'rxjs/internal/operators';
 import {Cities} from '../shared/interfaces/city';
-import {OPTIMAL_HUMIDITY, OPTIMAL_TEMP} from '../app.consts';
+import {OPTIMAL_TEMP_FOR_MALE, OPTIMAL_HUMIDITY} from '../app.consts';
 import {Subscription} from 'rxjs/index';
 
 @Component({
@@ -13,6 +13,7 @@ import {Subscription} from 'rxjs/index';
 export class CitiesComponent implements OnInit, OnDestroy {
   public cities: Cities;
   public isLoaded: boolean;
+  public selectedGender = 'MALE';
   private ids: string;
   private subs: Subscription;
 
@@ -30,7 +31,7 @@ export class CitiesComponent implements OnInit, OnDestroy {
         filter(res => !!res),
         map(res => res['list']),
       )
-      .subscribe(this.sort.bind(this));
+      .subscribe(this.initSort.bind(this));
   }
 
   ngOnDestroy() {
@@ -38,16 +39,14 @@ export class CitiesComponent implements OnInit, OnDestroy {
   }
 
   public getFirstTwentyCities(data): string {
-    data.forEach((el, index) => {
-      if (index < 20) {
-        this.ids = this.ids ? this.ids.concat(',' + data[index].id) : '' + data[index].id;
-      }
+    const newArr = data.slice(0, 20);
+    newArr.forEach(el => {
+      this.ids = this.ids ? this.ids.concat(',' + el.id) : JSON.stringify(el.id);
     });
-    console.log('this.ids =>' , this.ids);
     return this.ids;
   }
 
-  public sort(arr): void {
+  public initSort(arr): void {
     this.cities =
       arr.map(city => {
         return {
@@ -56,10 +55,22 @@ export class CitiesComponent implements OnInit, OnDestroy {
           temp: city.main.temp,
           humidity: city.main.humidity,
           country: city.sys.country,
-          score: Math.abs(Math.abs(OPTIMAL_TEMP - city.main.temp) - Math.abs(OPTIMAL_HUMIDITY - city.main.humidity))
+          score: Math.abs(Math.abs(OPTIMAL_TEMP_FOR_MALE - city.main.temp) - Math.abs(OPTIMAL_HUMIDITY - city.main.humidity))
         };
       }).sort((a, b) => {
         return a['score'] - b['score'];
       });
+    this.isLoaded = true;
+  }
+
+  public genderSelected(e): void {
+    this.selectedGender = e.value;
+    const optimalTemp = e.value === 'MALE' ? 21 : 22;
+    this.cities = this.cities.map(city => {
+      city['score'] = Math.abs(Math.abs(optimalTemp - city.temp) - Math.abs(OPTIMAL_HUMIDITY - city.humidity));
+      return city;
+    }).sort((a, b) => {
+      return a['score'] - b['score'];
+    });
   }
 }

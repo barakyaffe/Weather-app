@@ -1,4 +1,14 @@
-<ng-template [ngIf]="isLoaded" [ngIfElse]="SPINNER">
+<ng-template [ngIf]="isLoaded" [ngIfElse]="Spinner">
+  <mat-toolbar>
+    <mat-toolbar-row class="radio-btns-container">
+      <mat-radio-group>
+        <span>Show optimal place for:</span>
+        <span class="fill-remaining-space"></span>
+        <mat-radio-button name="Gender" value="MALE" [checked]="selectedGender === 'MALE'" (change)="genderSelected($event)">Male</mat-radio-button>
+        <mat-radio-button name="Gender" value="FEMALE" [checked]="selectedGender === 'FEMALE'" (change)="genderSelected($event)">Female</mat-radio-button>
+      </mat-radio-group>
+    </mat-toolbar-row>
+  </mat-toolbar>
   <div *ngIf="cities" class="grid-container">
     <mat-card *ngFor="let city of cities; let i = index">
       <mat-card-title>City #{{i+1}}: {{city.name}}</mat-card-title>
@@ -10,11 +20,8 @@
     </mat-card>
   </div>
 </ng-template>
-<ng-template #SPINNER>
+<ng-template #Spinner>
   <div class="spinner-wrapper">
-    <mat-spinner [strokeWidth]="100" [diameter]="50"></mat-spinner>
+    <mat-spinner></mat-spinner>
   </div>
 </ng-template>
-
-
-
