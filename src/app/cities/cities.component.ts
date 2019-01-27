@@ -39,8 +39,7 @@ export class CitiesComponent implements OnInit, OnDestroy {
   }
 
   public getFirstTwentyCities(data): string {
-    const newArr = data.slice(0, 20);
-    newArr.forEach(el => {
+    data.slice(0, 20).forEach(el => {
       this.ids = this.ids ? this.ids.concat(',' + el.id) : JSON.stringify(el.id);
     });
     return this.ids;
@@ -55,11 +54,10 @@ export class CitiesComponent implements OnInit, OnDestroy {
           temp: city.main.temp,
           humidity: city.main.humidity,
           country: city.sys.country,
-          score: Math.abs(Math.abs(OPTIMAL_TEMP_FOR_MALE - city.main.temp) - Math.abs(OPTIMAL_HUMIDITY - city.main.humidity))
+          score: this.getScore(city, OPTIMAL_TEMP_FOR_MALE)
         };
-      }).sort((a, b) => {
-        return a['score'] - b['score'];
       });
+    this.sortCitiesByScore(this.cities);
     this.isLoaded = true;
   }
 
@@ -67,10 +65,20 @@ export class CitiesComponent implements OnInit, OnDestroy {
     this.selectedGender = e.value;
     const optimalTemp = e.value === 'MALE' ? 21 : 22;
     this.cities = this.cities.map(city => {
-      city['score'] = Math.abs(Math.abs(optimalTemp - city.temp) - Math.abs(OPTIMAL_HUMIDITY - city.humidity));
+      city['score'] = this.getScore(city, optimalTemp);
       return city;
-    }).sort((a, b) => {
+    });
+    this.sortCitiesByScore(this.cities);
+  }
+
+  private getScore(city, optimalTemp): number {
+    return Math.abs(Math.abs(optimalTemp - city.temp) - Math.abs(OPTIMAL_HUMIDITY - city.humidity));
+  }
+
+  private sortCitiesByScore(arr): Cities {
+    arr.sort((a, b) => {
       return a['score'] - b['score'];
     });
+    return arr;
   }
 }
